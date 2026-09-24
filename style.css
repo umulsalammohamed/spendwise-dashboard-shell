@@ -1,0 +1,91 @@
+/* 3. THEME USING CSS CUSTOM PROPERTIES */
+:root {
+  --brand-color: #4f46e5;
+  --accent-color: #22c55e;
+  --surface-color: #f8fafc;
+  --card-bg: #ffffff;
+  --primary-text: #0f172a;
+  --secondary-text: #64748b;
+  --border-color: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Inter, sans-serif;
+  background: var(--surface-color);
+  color: var(--primary-text);
+}
+
+/* 2. CSS GRID FOR OVERALL LAYOUT */
+.dashboard {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 80px 1fr;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar main";
+  min-height: 100vh;
+}
+
+.sidebar { grid-area: sidebar; background: var(--card-bg); border-right: 1px solid var(--border-color); padding: 24px; display: flex; flex-direction: column; }
+.header { grid-area: header; background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; }
+.main { grid-area: main; padding: 28px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+
+/* FLEXBOX INSIDE */
+.logo { font-weight: 800; font-size: 1.5rem; color: var(--brand-color); margin-bottom: 32px; }
+.nav { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.nav-item { display: flex; align-items: center; padding: 12px; border-radius: 8px; text-decoration: none; color: var(--secondary-text); }
+.nav-item.active, .nav-item:hover { background: var(--surface-color); color: var(--brand-color); }
+
+.header-left h1 { font-size: 1.25rem; }
+.header-left p { color: var(--secondary-text); font-size: 0.9rem; }
+.header-right { display: flex; align-items: center; gap: 16px; }
+.btn { background: var(--brand-color); color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; }
+
+.card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 10px;
+  /* 5. MICRO-INTERACTION */
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  outline: none;
+}
+.card-top { display: flex; justify-content: space-between; align-items: center; color: var(--secondary-text); font-weight: 600; }
+.card h2 { font-size: 1.6rem; }
+.muted { color: var(--secondary-text); font-size: 0.85rem; }
+.progress { height: 6px; background: var(--surface-color); border-radius: 10px; overflow: hidden; }
+.progress div { height: 100%; background: var(--brand-color); }
+
+.card:hover, .card:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px -3px rgba(0,0,0,0.15);
+  border-color: var(--brand-color);
+}
+
+/* 4. RESPONSIVE - SINGLE COLUMN BELOW 768PX */
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main";
+  }
+  .sidebar { flex-direction: row; flex-wrap: wrap; }
+  .nav { flex-direction: row; flex-wrap: wrap; }
+  .header { flex-direction: column; align-items: flex-start; padding: 16px; height: auto; gap: 10px; }
+  .main { grid-template-columns: 1fr; }
+}
+
+/* STRETCH GOAL: DARK THEME */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-color: #0f172a;
+    --card-bg: #1e293b;
+    --primary-text: #f1f5f9;
+    --secondary-text: #94a3b8;
+    --border-color: #334155;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.4);
+  }
+}
